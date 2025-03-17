@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@tonconnect/ui": "^2.0.12",
+    "@tonconnect/ui-react": "^2.0.12",
     "@twa-dev/sdk": "^8.0.2",
     "@vitejs/plugin-basic-ssl": "^2.0.0",
     "react": "^19.0.0",

@@ -3,11 +3,12 @@ import WebApp from "@twa-dev/sdk";
 import { TonConnectButton, useTonWallet, useTonConnectUI } from "@tonconnect/ui-react";
 
 function App() {
-  const [wallet, setWallet] = useState(null);
-  const [tonConnectUI, setTonConnectUI] = useTonConnectUI();
+  const [wallet, setWallet] = useState<ReturnType<typeof useTonWallet> | null>(null);
+  const [tonConnectUI, setTonConnectUI] = useState<ReturnType<typeof useTonConnectUI> | null>(null);
 
   useEffect(() => {
     setWallet(useTonWallet());
+    setTonConnectUI(useTonConnectUI());
   }, []);
 
   const handleBuy = async () => {
@@ -21,13 +22,22 @@ function App() {
 
       // Crear una transacción
       const transaction = {
-        to: "AQUI_VA_TU_DIRECCION_TON", // Dirección TON donde recibirás el pago
-        amount: "1500000000", // 1.5 TON (en nanoton)
-        payload: "", // Puedes incluir un mensaje o metadatos
+        validUntil: Math.floor(Date.now() / 1000) + 3600, // 1 hour from now
+        messages: [
+          {
+            address: "AQUI_VA_TU_DIRECCION_TON", // Dirección TON donde recibirás el pago
+            amount: "1500000000", // 1.5 TON (en nanoton)
+            payload: "", // Puedes incluir un mensaje o metadatos
+          }
+        ]
       };
 
       // Enviar el pago
-      await tonConnectUI.sendTransaction(transaction);
+      if (tonConnectUI) {
+        await tonConnectUI[0].sendTransaction(transaction);
+      } else {
+        alert("❌ Error: tonConnectUI no está disponible.");
+      }
 
       alert("✅ Pago realizado con éxito.");
     } catch (error) {
