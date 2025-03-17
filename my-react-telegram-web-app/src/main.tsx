@@ -1,16 +1,11 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App.jsx';
+import '@twa-dev/sdk';
+import { TonConnectUIProvider } from '@tonconnect/ui-react';
 
-import WebApp from '@twa-dev/sdk'
-
-WebApp.ready();
-
-ReactDOM.createRoot...;
-
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <TonConnectUIProvider manifestUrl="https://YOUR_GITHUB_PAGES_URL/tonconnect-manifest.json">
     <App />
-  </StrictMode>,
-)
+  </TonConnectUIProvider>
+);
